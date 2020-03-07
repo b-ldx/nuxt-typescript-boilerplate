@@ -41,3 +41,4 @@ export type RootActions = ReturnType<typeof actionsFactory>
 
 export const plugins = [initializeStores]
 export * from '~/utils/store-accessor'
+export * from '~/utils/store-models-factory'
