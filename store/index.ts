@@ -1,15 +1,16 @@
-import { MutationTree, ActionContext } from 'vuex'
+import { ActionContext } from 'vuex'
 import initializeStores from '~/utils/store-accessor'
 
 /**
  * Root store can be handled in the "Vanilla" way
  * Doc: https://typescript.nuxtjs.org/cookbook/store.html#vanilla
  * WARNING:
- * Types GetterTree, ActionTree on getters and actions variables are voluntary omitted
- * to avoid not working autocompletion when casting
- * Examples:
- * (see pages/example1.vue) : (this.$store.getters as RootGetters).rootVarGetter
- * (see pages/example2.vue) : @Action('update') UpdateRootVar!: RootActions['update']
+ * Interfaces GetterTree, MutationTree, ActionTree are voluntary not implemented on classes
+ * due to interfaces signatures which don't prevent compilation errors when binding or casting types
+ * Example:
+ * Add "implements GetterTree<RootState, RootState>" to Getters class
+ * in pages/example1.vue, this will not raise any error : (this.$store.getters as RootGetters).anything
+ * in pages/example2.vue, this will not raise any error : @Getter rootVarGetter!: RootGetters['anything']
  **/
 
 /* State */
@@ -19,26 +20,27 @@ export const state = () => ({
 export type RootState = ReturnType<typeof state>
 
 /* Getters */
-const gettersFactory = () => ({
-  rootVarGetter: (state: RootState) => `Inside a getter : ${state.rootVar}`
-})
-export const getters = gettersFactory()
-export type RootGetters = ReturnType<typeof gettersFactory>
+class Getters {
+  rootVarGetter = (state: RootState) => `Inside a getter : ${state.rootVar}`
+}
+export const getters = new Getters()
+export type RootGetters = InstanceType<typeof Getters>
 
 /* Mutations */
-export const mutations: MutationTree<RootState> = {
-  CHANGE_ROOT_VAR: (state: RootState, value: string) => (state.rootVar = value)
+class Mutations {
+  changeRootVar = (state: RootState, value: string) => (state.rootVar = value)
 }
+export const mutations = new Mutations()
+export type RootMutations = InstanceType<typeof Mutations>
 
 /* Actions */
-const actionsFactory = () => ({
-  update({ commit }: ActionContext<RootState, RootState>, value: string) {
-    commit('CHANGE_ROOT_VAR', value)
+class Actions {
+  Update = ({ commit }: ActionContext<RootState, RootState>, value: string) => {
+    commit('changeRootVar', value)
   }
-})
-export const actions = actionsFactory()
-export type RootActions = ReturnType<typeof actionsFactory>
+}
+export const actions = new Actions()
+export type RootActions = InstanceType<typeof Actions>
 
 export const plugins = [initializeStores]
 export * from '~/utils/store-accessor'
-export * from '~/utils/store-models-factory'

@@ -55,7 +55,7 @@ export default class extends Vue {
   }
 
   UpdateRootVar(value: string) {
-    this.$store.dispatch('update', value)
+    this.$store.dispatch('Update', value)
   }
 
   get testVar() {

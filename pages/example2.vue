@@ -61,7 +61,7 @@ export default class extends Vue {
 
   @Getter rootVarGetter!: RootGetters['rootVarGetter']
 
-  @Action('update') UpdateRootVar!: RootActions['update']
+  @Action('Update') UpdateRootVar!: RootActions['Update']
 
   @exampleStore.State testVar!: ExampleStoreModel['testVar']
 
