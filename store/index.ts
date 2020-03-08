@@ -6,8 +6,8 @@ import { nameof } from '~/utils/helpers'
  * Root store can be handled in the "Vanilla" way
  * Doc: https://typescript.nuxtjs.org/cookbook/store.html#vanilla
  * WARNING:
- * Interfaces GetterTree, MutationTree, ActionTree are voluntary not implemented on classes
- * due to interfaces signatures which don't prevent compilation errors when binding or casting types
+ * Interfaces GetterTree, MutationTree, ActionTree for vuex are voluntary not implemented on classes
+ * due to interfaces index signatures which don't prevent compilation errors when binding or casting types
  * Example:
  * Add "implements GetterTree<RootState, RootState>" to Getters class
  * in pages/example1.vue, this will not raise any error : (this.$store.getters as RootGetters).anything
@@ -35,9 +35,10 @@ export const mutations = new Mutations()
 export type RootMutations = InstanceType<typeof Mutations>
 
 /* Actions */
+const nameOfMutation = (key: keyof Mutations) => nameof<Mutations>(key)
 class Actions {
   Update = ({ commit }: ActionContext<RootState, RootState>, value: string) => {
-    commit(nameof<Mutations>('changeRootVar'), value)
+    commit(nameOfMutation('changeRootVar'), value)
   }
 }
 export const actions = new Actions()
