@@ -5,6 +5,9 @@ import {
   Mutation,
   MutationAction
 } from 'vuex-module-decorators'
+import { nameof } from '~/utils/helpers'
+
+const nameOf = (key: keyof ExampleModule) => nameof<ExampleModule>(key)
 
 // Doc: https://typescript.nuxtjs.org/cookbook/store.html#class-based
 @Module({ name: 'example', stateFactory: true, namespaced: true })
@@ -18,22 +21,22 @@ export default class ExampleModule extends VuexModule {
 
   @Action
   Update(value: string) {
-    this.context.commit('increaseCount')
+    this.context.commit(nameOf('increaseCount'))
     this.UpdateVar(value)
   }
 
-  @Action({ commit: 'updateTestVar' })
+  @Action({ commit: nameOf('updateTestVar') })
   UpdateVar(value: string): string {
     return `${value}. Count : ${this.count}`
   }
 
   @Mutation
-  private updateTestVar(value: string) {
+  updateTestVar(value: string) {
     this.testVar = value
   }
 
   @Mutation
-  private increaseCount() {
+  increaseCount() {
     this.count++
   }
 

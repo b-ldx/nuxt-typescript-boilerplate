@@ -39,8 +39,10 @@
  * The benefit of this approach also includes that any modification made on module definition (= model) 
  * will result in an error on type binding which indicates that the binding expression is false 
  * WARNING :
- * Still the compilation will not fail in case of initially mistyping the binding expression
- * or not modifying it in the case mentioned above (= model modification)
+ * In case of module definition modification do not forget to modify the variable name bound
+ * because although type binding benefits of type safety the variable name does not
+ * The "nameof" helper function can be used in addition to add a level of security in case of
+ * refactoring but will also add redundancy in the binding syntax 
  **/
 
 import {
@@ -61,7 +63,8 @@ export default class extends Vue {
 
   @Getter rootVarGetter!: RootGetters['rootVarGetter']
 
-  @Action('Update') UpdateRootVar!: RootActions['Update']
+  @Action('Update')
+  UpdateRootVar!: RootActions['Update']
 
   @exampleStore.State testVar!: ExampleStoreModel['testVar']
 

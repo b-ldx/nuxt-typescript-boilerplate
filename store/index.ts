@@ -1,5 +1,6 @@
 import { ActionContext } from 'vuex'
 import initializeStores from '~/utils/store-accessor'
+import { nameof } from '~/utils/helpers'
 
 /**
  * Root store can be handled in the "Vanilla" way
@@ -36,7 +37,7 @@ export type RootMutations = InstanceType<typeof Mutations>
 /* Actions */
 class Actions {
   Update = ({ commit }: ActionContext<RootState, RootState>, value: string) => {
-    commit('changeRootVar', value)
+    commit(nameof<Mutations>('changeRootVar'), value)
   }
 }
 export const actions = new Actions()

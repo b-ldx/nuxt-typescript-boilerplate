@@ -39,10 +39,13 @@
  * The use of an inner variable to bind exampleStore (i.e moduleStore = exampleStore)
  * is not recommanded since template doesn't benefit from type safety
  * Which may lead to errors in case of modification on module definition
+ * The use of "nameof" helper function is strongly recommanded 
+ * in case of the use of this.$store.dispatch to add a level of type safety
  **/
 
 import { Vue, Component } from 'nuxt-property-decorator'
-import { exampleStore, RootState, RootGetters } from '~/store'
+import { exampleStore, RootState, RootGetters, RootActions } from '~/store'
+import { nameof } from '~/utils/helpers'
 
 @Component
 export default class extends Vue {
@@ -55,7 +58,7 @@ export default class extends Vue {
   }
 
   UpdateRootVar(value: string) {
-    this.$store.dispatch('Update', value)
+    this.$store.dispatch(nameof<RootActions>('Update'), value)
   }
 
   get testVar() {
