@@ -17,7 +17,7 @@
           Documentation
         </a>
         <a
-          href="https://github.com/nuxt/nuxt.js"
+          href="https://github.com/b-ldx/nuxt-typescript-boilerplate"
           target="_blank"
           class="button--green"
         >
